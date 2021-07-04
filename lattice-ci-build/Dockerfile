@@ -7,12 +7,31 @@ ARG VERILATOR_VERSION=verilator_4_016
 
 ARG DEBIAN_FRONTEND=noninteractive
 
+# Top 3 lines are boilerplate
+# next, after the break are a list of general reqs
+# next, are reqs for riscv
+# next are reqs for lattice
+# next are needed by final repo / code
+# final 2 lines are boilerplate to cleanup
 
-RUN apt-get update && apt-get install apt-utils -y
-RUN apt-get upgrade -y
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install apt-utils -y && \
+apt-get upgrade -y && \
+apt-get update && apt-get install -y \
+\
 cmake make wget unzip tar build-essential python3 python3-pip git \
-flex bison autoconf
+flex bison autoconf \
+\
+autoconf automake autotools-dev curl libmpc-dev libmpfr-dev \
+libgmp-dev libusb-1.0-0-dev gawk build-essential bison flex \
+texinfo gperf libtool patchutils bc zlib1g-dev device-tree-compiler \
+pkg-config git libexpat1-dev libncurses-dev \
+\
+ksh libsm6 libxrender1 libfontconfig1 libxt6 unzip xauth alien \
+\
+python gdb \
+\
+&& apt-get autoremove -y && \
+apt-get clean
 
 RUN git clone https://github.com/verilator/verilator /tmp/verilator && \
 cd /tmp/verilator && \
@@ -26,9 +45,6 @@ RUN cd /tmp/verilator && autoconf && ./configure && make -j2 && make install
 #################### 
 # Riscv Compiler
 
-
-RUN apt-get install -y \
-autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev libusb-1.0-0-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev device-tree-compiler pkg-config git libexpat1-dev libncurses-dev
 
 RUN git clone https://github.com/riscv/riscv-tools.git /tmp/riscv-tools && \
 cd /tmp/riscv-tools && \
@@ -47,8 +63,6 @@ RUN ls /opt/riscv
 #################### 
 # Lattice Diamond
 
-
-RUN apt install -y ksh libsm6 libxrender1 libfontconfig1 libxt6 unzip xauth alien
 
 RUN cd /tmp && \
 wget http://files.latticesemi.com/Diamond/3.10/diamond_3_10-base_x64-111-2-x86_64-linux.rpm && \
