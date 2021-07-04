@@ -73,5 +73,11 @@ alien -ic diamond_3_10-base_x64-111-2-x86_64-linux.rpm && rm -rf diamond_3_10-ba
 ENV RISCV=/opt/riscv
 RUN echo 'export RISCV=/opt/riscv' >> /root/.bashrc
 
+
+RUN cd /tmp && \
+git clone https://github.com/zeromq/libzmq && cd libzmq && \
+./autogen.sh && ./configure && make -j 2 && \
+make check && make install && ldconfig
+
 WORKDIR /src
 
