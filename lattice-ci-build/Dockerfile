@@ -66,5 +66,9 @@ RUN ls /opt/riscv
 
 
 RUN cd /tmp && \
-wget http://files.latticesemi.com/Diamond/3.10/diamond_3_10-base_x64-111-2-x86_64-linux.rpm && \
+wget -nv http://files.latticesemi.com/Diamond/3.10/diamond_3_10-base_x64-111-2-x86_64-linux.rpm && \
 alien -ic diamond_3_10-base_x64-111-2-x86_64-linux.rpm && rm -rf diamond_3_10-base_x64-111-2-x86_64-linux.rpm
+
+ENV RISCV=/opt/riscv
+
+
