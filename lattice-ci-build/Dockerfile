@@ -1,6 +1,9 @@
+FROM ubuntu:18.04
+# Args get erased after FROM
+
 # ARG VERILATOR_VERSION=2825940
 ARG VERILATOR_VERSION=verilator_4_016
-FROM ubuntu:18.04
+
 
 ARG DEBIAN_FRONTEND=noninteractive
 
