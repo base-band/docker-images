@@ -2,7 +2,8 @@ FROM ubuntu:18.04
 # Args get erased after FROM
 
 # ARG VERILATOR_VERSION=2825940
-ARG VERILATOR_VERSION=verilator_4_016
+# this was verilator_4_016 at some point, I think they redid their tags
+ARG VERILATOR_VERSION=v4.016
 
 
 ARG DEBIAN_FRONTEND=noninteractive
