@@ -60,6 +60,9 @@ RUN ls /opt
 RUN ls /opt/riscv
 
 
+ENV RISCV=/opt/riscv
+RUN echo 'export RISCV=/opt/riscv' >> /root/.bashrc
+
 
 #################### 
 # Lattice Diamond
@@ -69,10 +72,15 @@ RUN cd /tmp && \
 wget -nv http://files.latticesemi.com/Diamond/3.10/diamond_3_10-base_x64-111-2-x86_64-linux.rpm && \
 alien -ic diamond_3_10-base_x64-111-2-x86_64-linux.rpm && rm -rf diamond_3_10-base_x64-111-2-x86_64-linux.rpm
 
+# loop through everything in this folder, except for config (a folder)
+# patch the shebang up at the top to use ksh instead of sh, this is required by ubuntu
+# BUT NOT SUSE, idk
+RUN cd /usr/local/diamond/3.10_x64/synpbase/bin && \
+ls | grep -v config | xargs -I % sed -i 's/#\!\/bin\/sh/#\!usr\/bin\/ksh/g' %
 
-ENV RISCV=/opt/riscv
-RUN echo 'export RISCV=/opt/riscv' >> /root/.bashrc
 
+#################### 
+# ZeroMQ, needed by final application
 
 RUN cd /tmp && \
 git clone https://github.com/zeromq/libzmq && cd libzmq && \
