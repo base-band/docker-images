@@ -29,7 +29,7 @@ pkg-config git libexpat1-dev libncurses-dev \
 \
 ksh libsm6 libxrender1 libfontconfig1 libxt6 unzip xauth alien \
 \
-python gdb \
+python gdb default-jre \
 \
 && apt-get autoremove -y && \
 apt-get clean
