@@ -19,7 +19,7 @@ env:
 
 jobs:
   build-verilator-4-016:
-    name: Build and push Docker CI builds
+    name: Build and push verilator-4-016
 
     runs-on: ubuntu-latest
     permissions:
