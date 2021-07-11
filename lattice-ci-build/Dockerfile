@@ -15,8 +15,9 @@ ARG DEBIAN_FRONTEND=noninteractive
 # next are needed by final repo / code
 # final 2 lines are boilerplate to cleanup
 
-RUN apt-get update && apt-get install apt-utils -y && \
+RUN apt-get update && apt-get install apt-utils software-properties-common -y && \
 apt-get upgrade -y && \
+add-apt-repository -y ppa:git-core/ppa && \
 apt-get update && apt-get install -y \
 \
 cmake make wget unzip tar build-essential python3 python3-pip git \
