@@ -1,7 +1,7 @@
 # When making a new file
 # copy and replace all occurances of the following
 #                    ###############
-name: Build and push verilator-4-016
+name: Build and push images
 
 on:
   workflow_dispatch:
@@ -18,8 +18,8 @@ env:
 
 
 jobs:
-  build-verilator-4-016:
-    name: Build and push verilator-4-016
+  build-push-docker:
+    name: Build and push images
 
     runs-on: ubuntu-latest
     permissions:
@@ -41,13 +41,13 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push image
-        working-directory: ./verilator-4-016
+        working-directory: ./base-band-images
         run: |
           TAG=$(date -u +%Y%m%d%H%M%S)
-          docker build . --tag ghcr.io/${{github.repository}}/verilator-4-016:$TAG
-          docker push ghcr.io/${{github.repository}}/verilator-4-016:$TAG
-          docker tag ghcr.io/${{github.repository}}/verilator-4-016:$TAG ghcr.io/${{github.repository}}/verilator-4-016:latest
-          docker push ghcr.io/${{github.repository}}/verilator-4-016:latest
+          docker build . --tag ghcr.io/${{github.repository}}/base-band-images:$TAG
+          docker push ghcr.io/${{github.repository}}/base-band-images:$TAG
+          docker tag ghcr.io/${{github.repository}}/base-band-images:$TAG ghcr.io/${{github.repository}}/base-band-images:latest
+          docker push ghcr.io/${{github.repository}}/base-band-images:latest
 
 
 #           echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
