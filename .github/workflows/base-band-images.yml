@@ -6,7 +6,7 @@ name: Build and push images
 on:
   workflow_dispatch:
   push:
-    branches: [ trunk ]
+    branches: [ ben/ci ]
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
 
