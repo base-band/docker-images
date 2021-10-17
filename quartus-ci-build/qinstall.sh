@@ -126,6 +126,12 @@ send -- "y\n"
 expect "shortcuts on Desktop"
 send -- "n\n"
 
+expect "Launch Quartus Prime Lite Edition"
+send -- "n\n"
+
+expect "Provide your feedback"
+send -- "n\n"
+
 # expect "What is your favorite programming language?\r
 # Your answer: "
 # send -- "Java\r"
