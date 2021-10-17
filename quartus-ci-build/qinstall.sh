@@ -123,6 +123,9 @@ send -- "n\n"
 send -- "n\n"
 send -- "y\n"
 
+expect "shortcuts on Desktop"
+send -- "n\n"
+
 # expect "What is your favorite programming language?\r
 # Your answer: "
 # send -- "Java\r"
