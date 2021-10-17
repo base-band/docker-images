@@ -74,9 +74,29 @@ RUN mkdir -p /root/builds
 
 RUN cd /root/builds && wget -nv https://download.altera.com/akdlm/software/acdsinst/20.1std.1/720/ib_tar/Quartus-lite-20.1.1.720-linux.tar && tar -xf Quartus-lite-20.1.1.720-linux.tar && rm -rf Quartus-lite-20.1.1.720-linux.tar
 
-RUN ls
+RUN apt-get install -y nano ssh x11-apps vim iproute2 zip unzip
+
+RUN mv /root/builds /root/quartus-lite-20.1.1
+
+RUN mkdir -p /root/builds && mv /root/quartus-lite-20.1.1 /root/builds
+
+RUN ls /root/builds
 
 
+
+ENV DEBIAN_FRONTEND noninteractive
+ENV LC_ALL=C
+
+RUN echo "X11DisplayOffset 10" >> /etc/ssh/sshd_config && \
+echo "X11UseLocalhost no" >> /etc/ssh/sshd_config && \
+mkdir -p /root/.ssh && touch /root/.ssh/authorized_keys
+
+RUN echo 'export LC_ALL=C' >> /root/.bashrc
+
+RUN apt-get install -y expect
+
+ADD qinstall.sh /root/builds/quartus-lite-20.1.1
+RUN chmod +x /root/builds/quartus-lite-20.1.1/qinstall.sh && cd /root/builds/quartus-lite-20.1.1/ && ./qinstall.sh
 
 
 # RUN cd /tmp && \
