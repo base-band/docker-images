@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ghcr.io/base-band/docker-images/verilator-4-016:latest
 # Args get erased after FROM
 
 # ARG VERILATOR_VERSION=2825940
@@ -35,45 +35,6 @@ nano ssh x11-apps vim iproute2 zip unzip expect
 # && apt-get autoremove -y && \
 # apt-get clean
 
-
-# ksh libsm6 libxrender1 libfontconfig1 libxt6 unzip xauth alien \
-
-RUN git clone https://github.com/verilator/verilator /tmp/verilator && \
-cd /tmp/verilator && \
-git checkout $VERILATOR_VERSION && \
-git submodule update --init --depth 1
-
-RUN cd /tmp/verilator && autoconf && ./configure && make -j2 && make install
-
-
-
-#################### 
-# Riscv Compiler
-
-
-RUN git clone https://github.com/riscv/riscv-tools.git /tmp/riscv-tools && \
-cd /tmp/riscv-tools && \
-git checkout ef03b6a70d9baa03943661bce37b9f70ad36f706 && \
-git submodule update --init --recursive && \
-export RISCV=/opt/riscv && \
-mkdir -p $RISCV && \
-./build-rv32ima.sh
-
-
-RUN ls /opt
-RUN ls /opt/riscv
-
-
-ENV RISCV=/opt/riscv
-RUN echo 'export RISCV=/opt/riscv' >> /root/.bashrc
-
-#################### 
-# ZeroMQ, needed by final application
-
-RUN cd /tmp && \
-git clone https://github.com/zeromq/libzmq && cd libzmq && \
-./autogen.sh && ./configure && make -j 2 && \
-make check && make install && ldconfig
 
 
 #################### 
