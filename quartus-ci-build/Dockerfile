@@ -16,3 +16,5 @@ ARG DEBIAN_FRONTEND=noninteractive
 # final 2 lines are boilerplate to cleanup
 
 RUN free -h
+
+RUN df -h
