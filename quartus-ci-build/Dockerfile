@@ -1,5 +1,5 @@
-FROM ubuntu:18.04
-# FROM ghcr.io/base-band/docker-images/verilator-4-016:latest
+# FROM ubuntu:18.04
+FROM ghcr.io/base-band/docker-images/verilator-4-016:latest
 # Args get erased after FROM
 
 # ARG VERILATOR_VERSION=2825940
