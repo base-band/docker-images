@@ -1,4 +1,5 @@
-FROM ghcr.io/base-band/docker-images/verilator-4-016:latest
+FROM ubuntu:18.04
+# FROM ghcr.io/base-band/docker-images/verilator-4-016:latest
 # Args get erased after FROM
 
 # ARG VERILATOR_VERSION=2825940
@@ -24,34 +25,29 @@ cmake make wget unzip tar build-essential python3 python3-pip git \
 flex bison autoconf \
 \
 autoconf automake autotools-dev curl libmpc-dev libmpfr-dev \
-libgmp-dev libusb-1.0-0-dev gawk build-essential bison flex \
-texinfo gperf libtool patchutils bc zlib1g-dev device-tree-compiler \
-pkg-config git libexpat1-dev libncurses-dev \
+libgmp-dev gawk build-essential bison flex \
+texinfo gperf libtool patchutils bc zlib1g-dev \
+pkg-config libexpat1-dev libncurses-dev \
 \
-python gdb default-jre \
-nano ssh x11-apps vim iproute2 zip unzip expect
-
-
-# && apt-get autoremove -y && \
-# apt-get clean
+python \
+nano ssh x11-apps vim iproute2 zip unzip expect \
+&& apt-get autoremove -y && \
+apt-get clean
 
 
 
 #################### 
 # Quartus
 
-RUN mkdir -p /root/builds
+RUN mkdir -p /root/builds/quartus-lite-20.1.1
 
-RUN cd /root/builds && wget -nv https://download.altera.com/akdlm/software/acdsinst/20.1std.1/720/ib_tar/Quartus-lite-20.1.1.720-linux.tar && tar -xf Quartus-lite-20.1.1.720-linux.tar && rm -rf Quartus-lite-20.1.1.720-linux.tar
+ADD qinstall.sh /root/builds/quartus-lite-20.1.1
 
-RUN apt-get install -y 
+RUN chmod +x /root/builds/quartus-lite-20.1.1/qinstall.sh
 
-RUN mv /root/builds /root/quartus-lite-20.1.1
+RUN cd /root/builds/quartus-lite-20.1.1 && wget -nv https://download.altera.com/akdlm/software/acdsinst/20.1std.1/720/ib_tar/Quartus-lite-20.1.1.720-linux.tar && tar -xf Quartus-lite-20.1.1.720-linux.tar && rm -rf Quartus-lite-20.1.1.720-linux.tar
 
-RUN mkdir -p /root/builds && mv /root/quartus-lite-20.1.1 /root/builds
-
-RUN ls /root/builds
-
+RUN cd /root/builds/quartus-lite-20.1.1/ && ./qinstall.sh
 
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -63,8 +59,7 @@ mkdir -p /root/.ssh && touch /root/.ssh/authorized_keys
 
 RUN echo 'export LC_ALL=C' >> /root/.bashrc
 
-ADD qinstall.sh /root/builds/quartus-lite-20.1.1
-RUN chmod +x /root/builds/quartus-lite-20.1.1/qinstall.sh && cd /root/builds/quartus-lite-20.1.1/ && ./qinstall.sh
+
 
 
 
